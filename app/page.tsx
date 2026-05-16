@@ -53,12 +53,6 @@ export default function Home() {
 }
 
 async function loadCardsFromCsv() {
-  function shuffleCards() {
-  const shuffled = [...cards].sort(() => Math.random() - 0.5);
-  setCards(shuffled);
-  setCurrentIndex(0);
-  setIsAnswerVisible(false);
-}
   const response = await fetch("/cards.csv");
   const text = await response.text();
 
@@ -83,6 +77,12 @@ async function loadCardsFromCsv() {
     .filter((card) => card.id && card.front && card.back);
 
   setCards(loadedCards);
+}
+function shuffleCards() {
+  const shuffled = [...cards].sort(() => Math.random() - 0.5);
+  setCards(shuffled);
+  setCurrentIndex(0);
+  setIsAnswerVisible(false);
 }
 
   useEffect(() => {
@@ -411,6 +411,14 @@ if (cards.length === 0) {
             </button>
           ))}
         </div>
+        <div className="mt-3">
+  <button
+    onClick={shuffleCards}
+    className="rounded-2xl bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow"
+  >
+    シャッフル
+  </button>
+</div>
 
         <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
           <p>
