@@ -460,18 +460,10 @@ if (cards.length === 0) {
 
                   <p className="mt-6 text-sm font-bold text-slate-500">解説</p>
 
-                  <p className="mt-2 leading-relaxed text-slate-700">
-                    {currentCard.explanation}
-                  </p>
-
-                  {currentCard.trap && (
+                 
+                
                     <>
-                      <p className="mt-6 text-sm font-bold text-red-500">
-                        ひっかけ
-                      </p>
-
-                      <p className="mt-2 leading-relaxed text-red-700">
-                        {currentCard.trap}
+                   
                       </p>
                     </>
                   )}
