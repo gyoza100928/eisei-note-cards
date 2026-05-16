@@ -34,6 +34,10 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
 
+  const [password, setPassword] = useState("");
+const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+const adminPassword = "eisei2026";
+
   const totalCards = cards.length;
 
   useEffect(() => {
@@ -119,7 +123,60 @@ export default function AdminPage() {
           summaries.reduce((sum, item) => sum + item.progressRate, 0) /
             summaries.length
         );
+  function handleAdminLogin() {
+    if (password === adminPassword) {
+      setIsAdminLoggedIn(true);
+      setMessage("");
+    } else {
+      setMessage("パスワードが違います。");
+    }
+  }
 
+  if (!isAdminLoggedIn) {
+    return (
+      <main className="min-h-screen bg-slate-50 px-4 py-8">
+        <div className="mx-auto max-w-md">
+          <h1 className="text-3xl font-bold text-slate-900">
+            EISEI NOTE 管理画面
+          </h1>
+
+          <p className="mt-2 text-sm text-slate-600">
+            管理者パスワードを入力してください。
+          </p>
+
+          <div className="mt-8 rounded-3xl bg-white p-6 shadow-lg">
+            <label className="block text-sm font-bold text-slate-700">
+              管理者パスワード
+            </label>
+
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAdminLogin();
+                }
+              }}
+              placeholder="パスワード"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-lg outline-none focus:border-slate-900"
+            />
+
+            {message && (
+              <p className="mt-4 text-sm font-bold text-red-600">{message}</p>
+            )}
+
+            <button
+              onClick={handleAdminLogin}
+              className="mt-6 w-full rounded-2xl bg-slate-900 py-4 font-bold text-white shadow"
+            >
+              管理画面を開く
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-6">
       <div className="mx-auto max-w-5xl">
