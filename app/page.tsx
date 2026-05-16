@@ -1,12 +1,18 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { cards } from "../data/cards";
-import { supabase } from "../lib/supabase";
 
+import { supabase } from "../lib/supabase";
+type Card = {
+  id: number;
+  category: string;
+  front: string;
+  back: string;
+};
 type ProgressStatus = "remembered" | "not_yet";
 
 export default function Home() {
+  const [cards, setCards] = useState<Card[]>([]);
   const [studentCode, setStudentCode] = useState("");
   const [studentName, setStudentName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,8 +26,61 @@ export default function Home() {
   const [progressMap, setProgressMap] = useState<
     Record<number, ProgressStatus>
   >({});
+  function parseCsvLine(line: string) {
+  const result: string[] = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"' && inQuotes && nextChar === '"') {
+      current += '"';
+      i++;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      result.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current);
+  return result;
+}
+
+async function loadCardsFromCsv() {
+  const response = await fetch("/cards.csv");
+  const text = await response.text();
+
+  const lines = text
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/)
+    .filter((line) => line.trim() !== "");
+
+  const dataLines = lines.slice(1);
+
+  const loadedCards = dataLines
+    .map((line) => {
+      const [id, category, front, back] = parseCsvLine(line);
+
+      return {
+        id: Number(id),
+        category: category || "",
+        front: front || "",
+        back: back || "",
+      };
+    })
+    .filter((card) => card.id && card.front && card.back);
+
+  setCards(loadedCards);
+}
 
   useEffect(() => {
+    loadCardsFromCsv();
     const savedStudentCode = localStorage.getItem("studentCode");
     const savedStudentName = localStorage.getItem("studentName");
 
@@ -283,7 +342,18 @@ export default function Home() {
       </main>
     );
   }
-
+if (cards.length === 0) {
+  return (
+    <main className="min-h-screen bg-slate-50 px-4 py-8">
+      <div className="mx-auto max-w-xl">
+        <h1 className="text-3xl font-bold text-slate-900">
+          EISEI NOTE Cards
+        </h1>
+        <p className="mt-4 text-slate-600">カードを読み込み中...</p>
+      </div>
+    </main>
+  );
+}
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-6">
       <div className="mx-auto max-w-md">
