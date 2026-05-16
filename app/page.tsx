@@ -53,6 +53,12 @@ export default function Home() {
 }
 
 async function loadCardsFromCsv() {
+  function shuffleCards() {
+  const shuffled = [...cards].sort(() => Math.random() - 0.5);
+  setCards(shuffled);
+  setCurrentIndex(0);
+  setIsAnswerVisible(false);
+}
   const response = await fetch("/cards.csv");
   const text = await response.text();
 
@@ -294,6 +300,13 @@ async function loadCardsFromCsv() {
           <p className="mt-2 text-sm text-slate-600">
             公衆衛生・社会歯科 単語カード
           </p>
+          
+          <button
+  onClick={shuffleCards}
+  className="mt-4 rounded-2xl bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow"
+>
+  シャッフル
+</button>
 
           <div className="mt-8 rounded-3xl bg-white p-6 shadow-lg">
             <h2 className="text-xl font-bold text-slate-900">
