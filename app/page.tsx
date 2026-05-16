@@ -437,9 +437,7 @@ if (cards.length === 0) {
                   {currentCard.category}
                 </span>
 
-                <span className="text-yellow-500">
-                  {"★".repeat(currentCard.importance)}
-                </span>
+               
               </div>
 
               {!isAnswerVisible ? (
