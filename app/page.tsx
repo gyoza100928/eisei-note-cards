@@ -428,48 +428,48 @@ if (cards.length === 0) {
           </div>
         ) : (
           <>
-            <button
-              onClick={() => setIsAnswerVisible(!isAnswerVisible)}
-              className="mt-4 min-h-[320px] w-full rounded-3xl bg-white p-6 text-left shadow-lg"
-            >
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
-                  {currentCard.category}
-                </span>
+           <button
+  onClick={() => setIsAnswerVisible(!isAnswerVisible)}
+  className="w-full rounded-3xl bg-white p-6 text-left shadow-lg"
+>
+  {!isAnswerVisible ? (
+    <div>
+      <div className="flex items-start justify-between gap-4">
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+          {currentCard.category}
+        </span>
+      </div>
 
-               
-              </div>
+      <p className="mt-6 text-2xl font-bold leading-relaxed text-slate-900">
+        {currentCard.front}
+      </p>
 
-              {!isAnswerVisible ? (
-                <div className="mt-16 text-center">
-                  <p className="text-2xl font-bold leading-relaxed text-slate-900">
-                    {currentCard.front}
-                  </p>
+      <p className="mt-8 text-sm text-slate-500">
+        タップして答えを見る
+      </p>
+    </div>
+  ) : (
+    <div>
+      <div className="flex items-start justify-between gap-4">
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+          {currentCard.category}
+        </span>
+      </div>
 
-                  <p className="mt-10 text-sm text-slate-400">
-                    タップして答えを見る
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-8">
-                  <p className="text-sm font-bold text-slate-500">答え</p>
+      <p className="mt-6 text-sm font-bold text-slate-500">答え</p>
 
-                  <p className="mt-2 text-2xl font-bold text-slate-900">
-                    {currentCard.back}
-                  </p>
+      <p className="mt-2 text-2xl font-bold leading-relaxed text-slate-900">
+        {currentCard.back}
+      </p>
 
-                  <p className="mt-6 text-sm font-bold text-slate-500">解説</p>
-
-                 
-                
-                    <>
-                   
-                      </p>
-                    </>
-                  )}
-                </div>
-              )}
-            </button>
+      <p className="mt-8 text-sm text-slate-500">
+        タップして問題に戻る
+      </p>
+    </div>
+  )}
+</button>
+              
+            
 
             <div className="mt-5 grid grid-cols-2 gap-3">
               <button
